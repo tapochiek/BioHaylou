@@ -45,51 +45,53 @@ document.addEventListener('DOMContentLoaded', () => {
     audio.src = USER_CONFIG.widgetPlayer.audioFile;
     document.getElementById('widget-art').src = USER_CONFIG.widgetPlayer.coverArt;
     
-    // --- ОБНОВЛЕННАЯ ЛОГИКА ТЕКСТА (БЕСКОНЕЧНАЯ ПРОКРУТКА) ---
+    // --- БЕСКОНЕЧНАЯ ПРОКРУТКА ТЕКСТА ---
     const trackText = USER_CONFIG.widgetPlayer.trackName;
-    trackNameEl.textContent = trackText; // Сначала ставим просто текст для замера
+    trackNameEl.textContent = trackText; 
 
     setTimeout(() => {
         const containerWidth = document.querySelector('.track-info').clientWidth;
         const textWidth = trackNameEl.scrollWidth;
 
-        // Если текст длиннее контейнера (или почти такой же)
         if (textWidth > (containerWidth - 20)) { 
-            // Дублируем текст внутри элемента: "Название <отступ> Название"
-            // Это нужно для бесконечного эффекта
+            // Дублируем для бесшовности
             trackNameEl.innerHTML = `<span>${trackText}</span><span class="duplicate">${trackText}</span>`;
             trackNameEl.classList.add('scrolling');
         }
     }, 100);
 
-    // 2. АГРЕССИВНЫЙ АВТОЗАПУСК
+    // 2. ЗАПУСК МУЗЫКИ (СТАРАЯ НАДЕЖНАЯ СИСТЕМА)
     audio.volume = 0.3;
     
-    const updateIcon = () => {
-        playIcon.classList.remove('fa-play');
-        playIcon.classList.add('fa-pause');
+    // Функция попытки запуска
+    const tryPlay = () => {
+        audio.play().then(() => {
+            // Если запустилось: меняем иконку на паузу
+            playIcon.classList.remove('fa-play');
+            playIcon.classList.add('fa-pause');
+            
+            // Убираем слушатели, чтобы не пытаться запускать снова
+            document.removeEventListener('click', tryPlay);
+            document.removeEventListener('mousemove', tryPlay);
+            document.removeEventListener('touchstart', tryPlay);
+            document.removeEventListener('keydown', tryPlay);
+        }).catch(error => {
+            // Если браузер заблокировал, ничего страшного,
+            // слушатели события (клики) остались и запустят музыку при следующем движении
+            console.log("Waiting for interaction to play audio...");
+        });
     };
 
-    const playPromise = audio.play();
+    // Пытаемся запустить сразу (вдруг повезет)
+    tryPlay();
 
-    if (playPromise !== undefined) {
-        playPromise.then(_ => {
-            updateIcon();
-        }).catch(error => {
-            const forcePlay = () => {
-                audio.play();
-                updateIcon();
-                ['click', 'mousemove', 'touchstart', 'scroll', 'keydown'].forEach(evt => 
-                    document.removeEventListener(evt, forcePlay)
-                );
-            };
-            ['click', 'mousemove', 'touchstart', 'scroll', 'keydown'].forEach(evt => 
-                document.addEventListener(evt, forcePlay, { once: true })
-            );
-        });
-    }
+    // Если не повезло, запускаем при ЛЮБОМ действии
+    document.addEventListener('click', tryPlay);
+    document.addEventListener('mousemove', tryPlay);
+    document.addEventListener('touchstart', tryPlay);
+    document.addEventListener('keydown', tryPlay);
 
-    // 3. УМНЫЙ ВИЗУАЛИЗАТОР
+    // 3. ВИЗУАЛИЗАТОР (Двигается только когда музыка играет)
     const bars = document.querySelectorAll('.wave-icon span');
     
     function animateVisualizer() {
