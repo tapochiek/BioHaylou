@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HaYlou - Bio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- ПРЕЛОАДЕР -->
+    <div id="preloader">
+        <div class="loader-spinner"></div>
+    </div>
+
+    <!-- ВЕРХНИЙ ПЛЕЕР -->
+    <div class="music-widget">
+        <div class="music-trigger" id="music-trigger">
+            <div class="wave-icon"><span></span><span></span><span></span><span></span></div>
+        </div>
+        <div class="music-player-bar" id="music-player-bar">
+            <div class="track-art">
+                <img id="widget-art" src="" alt="Art">
+            </div>
+            <div class="track-info">
+                <span id="widget-track-name" class="track-name">Loading...</span>
+                <a href="https://voca.ro/1dg2M5LkeVAK" target="_blank" class="track-link"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            </div>
+            <button id="play-pause-btn" class="control-btn"><i class="fa-solid fa-play"></i></button>
+            <div class="volume-container">
+                <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.3">
+            </div>
+            <button id="close-player-btn" class="control-btn close-btn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+    </div>
+
+    <!-- АУДИО (Добавлен autoplay) -->
+    <audio id="bg-music" loop autoplay></audio>
+
+    <!-- КНОПКА СМЕНЫ ФОНА -->
+    <div class="theme-controls">
+        <button id="change-bg-btn"><i class="fa-solid fa-image"></i></button>
+    </div>
+
+    <!-- ФОН -->
+    <div class="bg-image"></div>
+    <div class="overlay"></div>
+
+    <div class="container">
+        <!-- 3D ОБЕРТКА -->
+        <div class="tilt-wrapper">
+
+            <!-- КАРТОЧКА -->
+            <div class="profile-card glass-panel">
+                <div class="banner">
+                    <img id="profile-banner" src="" alt="Banner">
+                </div>
+                <div class="profile-header">
+                    <div class="avatar">
+                        <img id="profile-avatar" src="" alt="Avatar">
+                    </div>
+                    <h1 class="username">HaYlou <i class="fa-solid fa-certificate verify-icon"></i></h1>
+                    <div class="badges">
+                        <span class="badge">DDnet</span>
+                        <span class="badge">Minecraft</span>
+                        <span class="badge">HaYlou <i class="fa-solid fa-heart"></i></span>
+                    </div>
+                </div>
+                <div class="bio-text">
+                    <div class="bio-item">HaYlou & Friends</div>
+                    <div class="bio-item">tg: <a href="#" id="tg-text-link">@loading</a></div>
+                    <div class="bio-item">Status: <span class="highlight">Better off dead</span></div>
+                </div>
+                <div class="location"><i class="fa-solid fa-location-dot"></i> Anjme World</div>
+            </div>
+
+            <!-- ССЫЛКИ -->
+            <div class="links-container">
+                <a href="#" target="_blank" class="link-card glass-panel" id="tg-link">
+                    <div class="link-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="tg"></div>
+                    <div class="link-info">
+                        <h3>Telegram</h3>
+                        <p>My personal channel</p>
+                    </div>
+                    <div class="link-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                </a>
+
+                <a href="#" target="_blank" class="link-card glass-panel" id="steam-link">
+                    <div class="link-icon"><i class="fa-brands fa-steam"></i></div>
+                    <div class="link-info">
+                        <h3>Steam</h3>
+                        <p>Let's play together</p>
+                    </div>
+                    <div class="link-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                </a>
+            </div>
+
+            <!-- НИЖНИЙ SOUNDCLOUD ПЛЕЕР -->
+            <div class="music-player glass-panel">
+                <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" 
+                src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2139518202&color=%23193aeb&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+            </div>
+
+        </div> 
+        
+        <div class="footer">Made by <span class="highlight">HaYlou</span></div>
+    </div>
+
+    <canvas id="canvas"></canvas>
+    <script src="script.js"></script>
+</body>
+</html>
